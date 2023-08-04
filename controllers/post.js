@@ -85,3 +85,69 @@ exports.getPost = async (req, res, next) => {
 
   res.status(200).json({ post });
 };
+
+exports.deletePost = async (req, res, next) => {
+  const email = req.userData.email;
+  const userId = req.userData.userId;
+
+  let user;
+  try {
+    user = await User.findOne({ where: { email } });
+  } catch (err) {
+    const error = new HttpError("사용자 검색 실패. 다시 시도해주세요.", 500);
+
+    return next(error);
+  }
+
+  if (!user) {
+    const error = new HttpError(
+      "존재하지 않는 유저입니다. 다시 시도해주세요.",
+      500
+    );
+
+    return next(error);
+  }
+
+  const postId = req.params.postId;
+
+  let post;
+  try {
+    post = await Post.findByPk(postId);
+  } catch (err) {
+    const error = new HttpError("게시물 조회 실패. 다시 시도해주세요.", 500);
+
+    return next(error);
+  }
+
+  if (!post) {
+    return res
+      .status(500)
+      .json({ message: "존재하지 않는 게시물입니다. 다시 시도해주세요." });
+  }
+
+  if (userId !== post.userId) {
+    return res.status(402).json({ message: "게시물 삭제 권한이 없습니다." });
+  }
+
+  let deletedPost;
+  try {
+    deletedPost = await Post.destroy({
+      where: { id: postId },
+    });
+  } catch (err) {
+    const error = new HttpError(
+      "게시물 삭제 중 에러가 발생했습니다. 다시 시도해주세요.",
+      500
+    );
+
+    return next(error);
+  }
+
+  if (deletedPost === 0) {
+    return res
+      .status(404)
+      .json({ error: "해당 아이디의 게시물을 찾을 수 없습니다." });
+  }
+
+  return res.status(200).json({ message: "게시물이 삭제되었습니다." });
+};
