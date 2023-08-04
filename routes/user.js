@@ -13,7 +13,7 @@ router.post(
       .isLength({ min: 8 })
       .withMessage("최소 8자리 이상 입력해주세요."),
   ],
-  userController.createUser
+  userController.signUpUser
 );
 
 module.exports = router;
