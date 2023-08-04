@@ -1,8 +1,18 @@
+const { validationResult } = require("express-validator");
+
 const User = require("../models/user");
 const Post = require("../models/post");
 const HttpError = require("../models/http-error");
 
 exports.createPost = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new HttpError(errors.array()[0].msg, 400);
+
+    return next(error);
+  }
+
   const { title, description } = req.body;
 
   try {
@@ -114,6 +124,14 @@ exports.deletePost = async (req, res, next) => {
 };
 
 exports.updatePost = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new HttpError(errors.array()[0].msg, 400);
+
+    return next(error);
+  }
+
   const userId = req.user.id;
 
   const postId = req.params.postId;

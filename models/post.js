@@ -14,7 +14,7 @@ const Post = sequelize.define("post", {
     unique: true,
   },
   description: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: false,
   },
   createdAt: {
