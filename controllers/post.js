@@ -39,6 +39,29 @@ exports.createPost = async (req, res, next) => {
   return res.status(201).json({ message: "게시물이 등록되었습니다." });
 };
 
+exports.getPosts = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const perPage = 3;
+
+  try {
+    const { count, rows } = await Post.findAndCountAll({
+      offset: (page - 1) * perPage,
+      limit: perPage,
+    });
+
+    res.json({
+      count,
+      totalPages: Math.ceil(count / perPage),
+      currentPage: page,
+      posts: rows,
+    });
+  } catch (err) {
+    const error = new HttpError("게시물 조회 실패. 다시 시도해주세요.", 500);
+
+    return next(error);
+  }
+};
+
 exports.getPost = async (req, res, next) => {
   const postId = req.params.postId;
 
