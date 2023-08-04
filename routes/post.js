@@ -26,6 +26,15 @@ router.get("/:postId", postController.getPost);
 
 router.delete("/:postId", checkAuth, postController.deletePost);
 
-router.patch("/:postId", checkAuth, postController.updatePost);
+router.patch(
+  "/:postId",
+  checkAuth,
+  [
+    body("title")
+      .isLength({ max: 255 })
+      .withMessage("255자 이하로 입력해주세요."),
+  ],
+  postController.updatePost
+);
 
 module.exports = router;
