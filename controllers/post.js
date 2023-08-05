@@ -195,7 +195,5 @@ exports.updatePost = async (req, res, next) => {
     return next(error);
   }
 
-  // 수정 정보를 반환해주는건 어때?
-
   return res.status(200).json({ message: "게시물 수정 완료." });
 };
