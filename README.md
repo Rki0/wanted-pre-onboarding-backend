@@ -52,7 +52,7 @@ $ npm start
 
 ### 회원 가입(`POST`, `/api/user/signup`)
 
-- request
+> request
 
 ```json
 {
@@ -61,7 +61,7 @@ $ npm start
 }
 ```
 
-- response
+> response
 
 ```json
 {
@@ -71,7 +71,7 @@ $ npm start
 
 ### 로그인(`POST`, `api/user/login`)
 
-- request
+> request
 
 ```json
 {
@@ -80,7 +80,7 @@ $ npm start
 }
 ```
 
-- response
+> response
 
 ```json
 {
@@ -90,7 +90,7 @@ $ npm start
 
 ### 게시물 생성(`POST`, `api/post`)
 
-- headers
+> headers
 
 ```json
 {
@@ -99,7 +99,10 @@ $ npm start
 }
 ```
 
-- request
+> request
+
+모든 프로퍼티는 1자 이상 입력해야합니다.  
+`title`의 경우 최대 255자까지 입력 가능합니다.
 
 ```json
 {
@@ -108,7 +111,7 @@ $ npm start
 }
 ```
 
-- response
+> response
 
 ```json
 {
@@ -118,7 +121,7 @@ $ npm start
 
 ### 게시물 삭제(`DELETE`, `api/post/:postId`)
 
-- headers
+> headers
 
 ```json
 {
@@ -127,16 +130,148 @@ $ npm start
 }
 ```
 
-- request
+> request
 
-없습니다. API 경로에 파라미터로 게시물 아이디를 입력해주세요.
+데이터를 body에 담을 필요가 없습니다.  
+삭제할 게시물 아이디를 API 경로에 파라미터로 입력해주세요.
 
-- response
+> response
 
 ```json
 {
-  "message": "게시물이 등록되었습니다."
+  "message": "게시물이 삭제되었습니다."
+}
+```
+
+### 게시물 수정(`PATCH`, `api/post/:postId`)
+
+> headers
+
+```json
+{
+  // ... //
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiaWF0IjoxNjkxMjAwMTE2LCJleHAiOjE2OTEyMDM3MTZ9.niNni2bSocc938rAzKbF6QmCTpYW92x8MdBHE8mxrRY"
+}
+```
+
+> request
+
+`title` 혹은 `description`을 입력할 수 있습니다.  
+수정을 원치 않는 프로퍼티는 빈 문자열을 보내거나, 아예 입력하지 않으셔도 됩니다.  
+입력되지 않은 프로퍼티는 수정되지 않고, 기존의 값을 유지합니다.  
+`title`의 경우 최대 255자까지 입력 가능합니다.
+
+```json
+// title만 수정하는 경우 1
+{
+  "title": "Change title",
+  "description": ""
+}
+
+// title만 수정하는 경우 2
+{
+  "title": "Change title",
+}
+
+
+// description만 수정하는 경우
+{
+  "title": "",
+  "description": "Change description"
+}
+
+// 둘 다 수정하는 경우
+{
+  "title": "Change title",
+  "description": "Change description"
+}
+```
+
+> response
+
+```json
+{
+  "message": "게시물 수정 완료."
+}
+```
+
+### 게시물 목록 조회(`GET`, `api/post/posts?page=${pageNumber}`)
+
+> request
+
+데이터를 body에 담을 필요가 없습니다.  
+조회하고자 하는 페이지를 API 경로에 쿼리 스트링으로 입력해주세요.  
+페이지 당 3개의 게시물이 조회됩니다.
+
+```js
+// 1 page를 조회하고자 하는 경우
+
+api/posts?paeg=1
+```
+
+> response
+
+```json
+{
+  "count": 5, // 총 게시물 개수
+  "totalPages": 2, // 산출된 총 페이지 개수
+  "currentPage": 1, // 현재 페이지. 쿼리 스트링으로 입력한 값.
+  "posts": [
+    {
+      "id": 1,
+      "title": "Change title",
+      "description": "df",
+      "createdAt": "2023-08-05T01:05:36.000Z",
+      "updatedAt": "2023-08-05T02:05:06.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "fsdfadfsdfadfa",
+      "description": "afdsfdasdfsdfsfdsf",
+      "createdAt": "2023-08-05T01:05:39.000Z",
+      "updatedAt": "2023-08-05T01:05:39.000Z",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "title": "aaaaaa",
+      "description": "adffdfasdfdsfads",
+      "createdAt": "2023-08-05T01:05:43.000Z",
+      "updatedAt": "2023-08-05T01:05:43.000Z",
+      "userId": 1
+    }
+  ]
+}
+```
+
+### 특정 게시물 조회(`GET`, `api/post/:postId`)
+
+> request
+
+데이터를 body에 담을 필요가 없습니다.  
+조회할 게시물 아이디를 API 경로에 파라미터로 입력해주세요.
+
+> response
+
+```json
+{
+  "post": {
+    "id": 1,
+    "title": "Change title",
+    "description": "df",
+    "createdAt": "2023-08-05T01:05:36.000Z",
+    "updatedAt": "2023-08-05T02:05:06.000Z",
+    "userId": 1
+  }
 }
 ```
 
 ## `.env` 파일 설정
+
+애플리케이션 실행 전 `.env` 파일에 입력해야할 환경 변수입니다.
+
+```js
+DB_PASSWORD = "pksy1228@@bb";
+JWT_KEY = "thisisjwtkeyforwanted";
+```
