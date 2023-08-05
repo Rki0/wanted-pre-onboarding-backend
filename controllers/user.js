@@ -19,7 +19,7 @@ exports.signUpUser = async (req, res, next) => {
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email });
+    existingUser = await User.findOne({ where: { email } });
   } catch (err) {
     const error = new HttpError("사용자 검색 실패. 다시 시도해주세요.", 500);
 
