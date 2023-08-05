@@ -110,7 +110,7 @@ exports.loginUser = async (req, res, next) => {
   try {
     token = jwt.sign(
       {
-        id: existingUser.id,
+        id: existingUser.userId,
         email: existingUser.email,
       },
       process.env.JWT_KEY,

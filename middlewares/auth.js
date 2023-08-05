@@ -34,7 +34,7 @@ module.exports = async (req, res, next) => {
       return next(error);
     }
 
-    if (user.email !== decodedToken.email) {
+    if (user.email !== decodedToken.email || user.userId !== decodedToken.id) {
       throw new Error("인증에 실패하였습니다.");
     }
 
