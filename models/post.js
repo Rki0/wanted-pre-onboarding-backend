@@ -11,7 +11,6 @@ const Post = sequelize.define("post", {
   title: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
   },
   description: {
     type: Sequelize.TEXT,
