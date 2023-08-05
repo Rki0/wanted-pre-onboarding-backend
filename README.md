@@ -206,7 +206,7 @@ $ npm start
 ```js
 // 1 page를 조회하고자 하는 경우
 
-api/posts?paeg=1
+api/post/posts?page=1
 ```
 
 > response
