@@ -44,16 +44,15 @@ $ npm start
 
 - 게시물 수정 API의 경우 사용자는 title만 입력할 수도, description만 입력할 수도 있기에 이를 반영하여 입력된 값만 수정이 되도록 했습니다.
 
+- JWT는 요청을 보낼 때 `headers`의 `Authorization` key에 담아서 보내면 됩니다. 이 때 `"Bearer 발급받은_JWT"` 형식으로 입력해야합니다.
+
 2. 게시물 목록 조회 API의 경우, pagination을 적용했으며 페이지 당 3개의 게시물을 반환하도록 했습니다. 게시물은 생성된 순서대로 나열됩니다.
 
 ## API 명세(request/response 포함)
 
-### 회원 가입
+### 회원 가입(`POST`, `/api/user/signup`)
 
-- `POST`
-- `/api/user/signup`
-
-- `req`
+- request
 
 ```json
 {
@@ -62,9 +61,81 @@ $ npm start
 }
 ```
 
+- response
+
 ```json
 {
   "message": "회원가입 성공."
+}
+```
+
+### 로그인(`POST`, `api/user/login`)
+
+- request
+
+```json
+{
+  "email": "wanted@wanted.com",
+  "password": "test1234"
+}
+```
+
+- response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiaWF0IjoxNjkxMjAwMTE2LCJleHAiOjE2OTEyMDM3MTZ9.niNni2bSocc938rAzKbF6QmCTpYW92x8MdBHE8mxrRY"
+}
+```
+
+### 게시물 생성(`POST`, `api/post`)
+
+- headers
+
+```json
+{
+  // ... //
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiaWF0IjoxNjkxMjAwMTE2LCJleHAiOjE2OTEyMDM3MTZ9.niNni2bSocc938rAzKbF6QmCTpYW92x8MdBHE8mxrRY"
+}
+```
+
+- request
+
+```json
+{
+  "title": "hi",
+  "description": "It's me!"
+}
+```
+
+- response
+
+```json
+{
+  "message": "게시물이 등록되었습니다."
+}
+```
+
+### 게시물 삭제(`DELETE`, `api/post/:postId`)
+
+- headers
+
+```json
+{
+  // ... //
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiaWF0IjoxNjkxMjAwMTE2LCJleHAiOjE2OTEyMDM3MTZ9.niNni2bSocc938rAzKbF6QmCTpYW92x8MdBHE8mxrRY"
+}
+```
+
+- request
+
+없습니다. API 경로에 파라미터로 게시물 아이디를 입력해주세요.
+
+- response
+
+```json
+{
+  "message": "게시물이 등록되었습니다."
 }
 ```
 
