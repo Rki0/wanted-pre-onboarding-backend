@@ -17,7 +17,7 @@ $ npm start
 
 ## 데이터베이스 테이블 구조
 
-<img width="638" alt="스크린샷 2023-08-05 오전 9 45 55" src="https://github.com/Rki0/wanted-pre-onboarding-backend/assets/86224851/5ea01729-051a-47c2-b956-141cb2477acf">
+<img width="654" alt="스크린샷 2023-08-05 오후 4 11 47" src="https://github.com/Rki0/wanted-pre-onboarding-backend/assets/86224851/fd45f2bb-26d6-4a5f-acf8-7ce00afd5784">
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
 
@@ -36,7 +36,7 @@ $ npm start
 
 2. `bcrypt`를 사용하여 비밀번호를 암호화하여 저장했습니다.
 
-3. 로그인 시, `jsonwebtoken`을 사용하여 1시간동안 유효한 JWT를 발행합니다. JWT에는 user의 id, email 값이 들어가며, 이는 미들웨어를 통해 디코딩하여 접근 권한 판별에 활용합니다.
+3. 로그인 시, `jsonwebtoken`을 사용하여 1시간동안 유효한 JWT를 발행합니다. JWT에는 user의 userId, email 값이 들어가며, 이는 미들웨어를 통해 디코딩하여 접근 권한 판별에 활용합니다.
 
 ### 게시물
 
@@ -213,33 +213,39 @@ api/post/posts?page=1
 
 ```json
 {
-  "count": 5, // 총 게시물 개수
-  "totalPages": 2, // 산출된 총 페이지 개수
+  "count": 8, // 총 게시물 개수
+  "totalPages": 3, // 산출된 총 페이지 개수
   "currentPage": 1, // 현재 페이지. 쿼리 스트링으로 입력한 값.
   "posts": [
     {
       "id": 1,
-      "title": "Change title",
-      "description": "df",
-      "createdAt": "2023-08-05T01:05:36.000Z",
-      "updatedAt": "2023-08-05T02:05:06.000Z",
-      "userId": 1
+      "title": "hi",
+      "description": "It's me!",
+      "createdAt": "2023-08-05T03:02:29.000Z",
+      "updatedAt": "2023-08-05T03:02:29.000Z",
+      "user": {
+        "email": "hi@hi.com"
+      }
     },
     {
       "id": 2,
-      "title": "fsdfadfsdfadfa",
-      "description": "afdsfdasdfsdfsfdsf",
-      "createdAt": "2023-08-05T01:05:39.000Z",
-      "updatedAt": "2023-08-05T01:05:39.000Z",
-      "userId": 1
+      "title": "hi2",
+      "description": "It's me!2",
+      "createdAt": "2023-08-05T03:02:41.000Z",
+      "updatedAt": "2023-08-05T03:02:41.000Z",
+      "user": {
+        "email": "hi@hi.com"
+      }
     },
     {
       "id": 3,
-      "title": "aaaaaa",
-      "description": "adffdfasdfdsfads",
-      "createdAt": "2023-08-05T01:05:43.000Z",
-      "updatedAt": "2023-08-05T01:05:43.000Z",
-      "userId": 1
+      "title": "hi3",
+      "description": "It's me!24",
+      "createdAt": "2023-08-05T03:02:45.000Z",
+      "updatedAt": "2023-08-05T03:02:45.000Z",
+      "user": {
+        "email": "hi@hi.com"
+      }
     }
   ]
 }
@@ -257,12 +263,9 @@ api/post/posts?page=1
 ```json
 {
   "post": {
-    "id": 1,
-    "title": "Change title",
-    "description": "df",
-    "createdAt": "2023-08-05T01:05:36.000Z",
-    "updatedAt": "2023-08-05T02:05:06.000Z",
-    "userId": 1
+    "title": "hi",
+    "description": "It's me!",
+    "author": "hi@hi.com"
   }
 }
 ```
