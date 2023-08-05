@@ -37,9 +37,13 @@ exports.getPosts = async (req, res, next) => {
     const { count, rows } = await Post.findAndCountAll({
       offset: (page - 1) * perPage,
       limit: perPage,
+      attributes: {
+        exclude: ["userId"],
+      },
+      include: [{ model: User, attributes: ["email"] }],
     });
 
-    res.json({
+    res.status(200).json({
       count,
       totalPages: Math.ceil(count / perPage),
       currentPage: page,
@@ -73,7 +77,25 @@ exports.getPost = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ post });
+  let user;
+  try {
+    user = await User.findByPk(post.userId);
+  } catch (err) {
+    const error = new HttpError(
+      "존재하지 않는 사용자입니다. 다시 시도해주세요.",
+      500
+    );
+
+    return next(error);
+  }
+
+  const postWithAuthor = {
+    title: post.title,
+    description: post.description,
+    author: user.email,
+  };
+
+  res.status(200).json({ post: postWithAuthor });
 };
 
 exports.deletePost = async (req, res, next) => {
@@ -172,6 +194,8 @@ exports.updatePost = async (req, res, next) => {
 
     return next(error);
   }
+
+  // 수정 정보를 반환해주는건 어때?
 
   return res.status(200).json({ message: "게시물 수정 완료." });
 };

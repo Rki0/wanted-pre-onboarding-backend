@@ -23,7 +23,10 @@ module.exports = async (req, res, next) => {
       throw new Error("토큰이 만료되었습니다.");
     }
 
-    const user = await User.findByPk(decodedToken.id);
+    const user = await User.findOne({
+      where: { userId: decodedToken.id },
+      attributes: { exclude: ["password"] },
+    });
 
     if (!user) {
       const error = new HttpError(
