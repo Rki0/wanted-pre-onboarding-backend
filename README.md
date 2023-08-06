@@ -71,6 +71,10 @@ http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/signup
 
 1. 게시물 생성, 수정, 삭제 API를 사용할 경우, `middlewares/auth.js`를 통해 JWT를 디코딩하고 유효성 검증 및 존재하는 유저인지 검증 후 접근을 허가합니다.
 
+- 게시물 생성의 경우 생성된 게시물의 정보를 반환하도록 했습니다.  
+  프론트엔드가 구현되어 있지 않기에, 어떤 이유 때문에 반환한다고 명확하게 설명할 수는 없지만,  
+  주어진 과제에서 `postman`의 활용을 더 쉽게 만들기 위해 생성된 데이터를 바로 확인할 수 있도록 하는 것이 목적입니다.
+
 - 게시물 수정 API의 경우 사용자는 title만 입력할 수도, description만 입력할 수도 있기에 이를 반영하여 입력된 값만 수정이 되도록 했습니다.
 
 - JWT는 요청을 보낼 때 `headers`의 `Authorization` key에 담아서 보내면 됩니다. 이 때 `"Bearer 발급받은_JWT"` 형식으로 입력해야합니다.
@@ -144,7 +148,12 @@ http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/signup
 
 ```json
 {
-  "message": "게시물이 등록되었습니다."
+  "message": "게시물이 등록되었습니다.",
+  "createdPost": {
+    "id": 16,
+    "title": "hi",
+    "description": "It's me!"
+  }
 }
 ```
 
