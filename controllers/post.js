@@ -15,8 +15,9 @@ exports.createPost = async (req, res, next) => {
 
   const { title, description } = req.body;
 
+  let createdPost;
   try {
-    await req.user.createPost({
+    createdPost = await req.user.createPost({
       title,
       description,
     });
@@ -26,7 +27,15 @@ exports.createPost = async (req, res, next) => {
     return next(error);
   }
 
-  return res.status(201).json({ message: "게시물이 등록되었습니다." });
+  const responseData = {
+    id: createdPost.id,
+    title: createdPost.title,
+    description: createdPost.description,
+  };
+
+  return res
+    .status(201)
+    .json({ message: "게시물이 등록되었습니다.", createdPost: responseData });
 };
 
 exports.getPosts = async (req, res, next) => {

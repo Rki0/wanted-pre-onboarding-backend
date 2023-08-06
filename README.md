@@ -50,8 +50,6 @@ http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/signup
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
 
-유튜브 링크~~~~~~~~~~~~~
-
 ## 구현 방법 및 이유에 대한 간략한 설명
 
 - `Sequelize`를 사용하여 SQL 쿼리를 보다 더 빠르게 작성할 수 있도록 했습니다.
@@ -150,7 +148,12 @@ http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/signup
 
 ```json
 {
-  "message": "게시물이 등록되었습니다."
+  "message": "게시물이 등록되었습니다.",
+  "createdPost": {
+    "id": 16,
+    "title": "hi",
+    "description": "It's me!"
+  }
 }
 ```
 
