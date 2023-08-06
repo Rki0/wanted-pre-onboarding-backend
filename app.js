@@ -8,7 +8,7 @@ const postRoutes = require("./routes/post");
 const User = require("./models/user");
 const Post = require("./models/post");
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
