@@ -1,23 +1,52 @@
 # 원티드 프리온보딩 인턴십 백엔드 과제 README
 
-## 지원자의 성명
+## 지원자 성명
 
 박기영
 
+## AWS 환경 세팅
+
+<img width="638" alt="스크린샷 2023-08-06 오후 5 12 50" src="https://github.com/lordmyshepherd-edu/wanted-pre-onboardung-backend-selection-assignment/assets/86224851/e4dfca4c-fb98-42fa-a6b4-7a5e2560704d">
+
+프론트엔드는 구현 대상이 아니기 때문에 `postman`을 사용해서 요청을 전송합니다.  
+`AWS EC2`를 사용하여 `express`로 구현한 서버 코드를 배포했습니다.  
+`AWS RDS`를 사용하여 `MySQL`을 연결하였습니다.  
+`EC2`와 `RDS`를 연동하였으며,  
+유저(`postman`)는 `EC2`와, `EC2`는 `RDS`와 데이터를 주고받습니다.
+
+## 배포 API 주소
+
+http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080
+
 ## 애플리케이션의 실행 방법 (엔드포인트 호출 방법 포함)
 
-`npm install` 실행 전 `.env` 파일 추가 필요(README 하단에 설정값 첨부)
+`postman`을 활용하여 API 통신을 진행합니다.  
+앞서 명시한 배포 주소를 통해 엔드포인트로 접근할 수 있습니다.
 
 ```
-$ git clone https://github.com/Rki0/wanted-pre-onboarding-backend.git
-$ cd wanted-pre-onboarding-backend
-$ npm install
-$ npm start
+http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/...
 ```
+
+구현한 API 엔드포인트는 위와 같은 형식을 공통적으로 가지고 있으며,  
+README 하단에 적혀있는 명세서를 통해 더 자세하게 확인 할 수 있습니다.
+
+```
+// 회원가입 API 호출 방법
+
+http://ec2-43-201-78-36.ap-northeast-2.compute.amazonaws.com:8080/api/signup
+```
+
+`postman`에서 배포 주소와 엔드 포인트를 위 예시와 같이 사용하실 수 있습니다.
 
 ## 데이터베이스 테이블 구조
 
 <img width="654" alt="스크린샷 2023-08-05 오후 4 11 47" src="https://github.com/Rki0/wanted-pre-onboarding-backend/assets/86224851/fd45f2bb-26d6-4a5f-acf8-7ce00afd5784">
+
+`PK`로 사용되는 `id`의 경우 클라이언트 쪽에 직접 전달하는 것은 좋지 않다고 판단하여,  
+`uuid`를 사용하여 또 하나의 식별자를 사용합니다.  
+따라서 `PK`는 내부적으로, `uuid`는 외부적으로 사용됩니다.  
+단, 게시물의 경우 생성, 수정, 삭제에 대하여 권한 체크를 진행하며, 민감한 정보가 없기 때문에  
+`PK`로 사용되는 `id`를 내외부적으로 모두 사용합니다.
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
 
@@ -268,13 +297,4 @@ api/post/posts?page=1
     "author": "hi@hi.com"
   }
 }
-```
-
-## `.env` 파일 설정
-
-애플리케이션 실행 전 `.env` 파일에 입력해야할 환경 변수입니다.
-
-```js
-DB_PASSWORD = "pksy1228@@bb";
-JWT_KEY = "thisisjwtkeyforwanted";
 ```
